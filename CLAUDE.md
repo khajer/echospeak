@@ -5,7 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Running
 
 ```bash
-python record_and_transcribe.py
+./run.sh        # first-time setup: installs deps, downloads voice model, then launches
+python3 main.py # subsequent runs (once deps and model are in place)
 ```
 
 Ctrl+C to exit the loop.
@@ -13,14 +14,14 @@ Ctrl+C to exit the loop.
 ## Dependencies
 
 ```bash
-pip install openai-whisper sounddevice numpy piper-tts
+pip install -r requirements.txt
 ```
 
-Voice model files (`en_US-lessac-medium.onnx` + `.onnx.json`) must be present in the working directory, or `VOICE_MODEL` updated to the full path.
+Voice model files (`en_US-amy-medium.onnx` + `.onnx.json`) must be present in the working directory, or `VOICE_MODEL` in `main.py` updated to the full path. `run.sh` downloads them automatically if missing.
 
 ## Architecture
 
-Single file (`record_and_transcribe.py`) — no modules, no config files.
+Single file (`main.py`) — no modules, no config files.
 
 **Flow (loops until Ctrl+C):**
 1. `record_until_enter()` — streams mic via `sounddevice.InputStream` at 16 kHz float32 into a list of chunks; blocks on `input()` until Enter, then concatenates chunks into a flat numpy array.
@@ -31,4 +32,4 @@ Both `whisper` model and `PiperVoice` are loaded once at startup (module level) 
 
 ## Voice model
 
-To swap voices, download any model from the piper-voices HuggingFace repo and update `VOICE_MODEL`. Both `.onnx` and `.onnx.json` files are required.
+Default voice: `en_US-amy-medium` (American female). To swap, download any model from the [piper-voices HuggingFace repo](https://huggingface.co/rhasspy/piper-voices) and update `VOICE_MODEL` in `main.py`. Both `.onnx` and `.onnx.json` files are required. Use `PiperVoice.synthesize_wav()` — `synthesize()` and `synthesize_stream_raw()` do not exist in piper-tts 1.4.2.
