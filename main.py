@@ -6,7 +6,7 @@ import whisper
 from piper.voice import PiperVoice
 
 SAMPLE_RATE = 16000
-VOICE_MODEL = "en_US-lessac-medium.onnx"  # ponytail: set path to your downloaded .onnx file
+VOICE_MODEL = "en_US-amy-medium.onnx"
 
 model = whisper.load_model("base")
 voice = PiperVoice.load(VOICE_MODEL)
