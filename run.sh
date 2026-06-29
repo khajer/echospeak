@@ -9,4 +9,4 @@ if [ ! -f en_US-amy-medium.onnx ]; then
     curl -L -o en_US-amy-medium.onnx.json "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/amy/medium/en_US-amy-medium.onnx.json"
 fi
 
-python main.py
+python3 main.py
